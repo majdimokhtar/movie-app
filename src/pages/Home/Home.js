@@ -1,15 +1,15 @@
 import {useEffect} from 'react'
 import {useDispatch,useSelector } from "react-redux"
-import Movies from 'components/Movies/Movies'
-import { fetchAsyncMovies,getAllMovies } from 'redux/show.slice'
+import Shows from 'components/Movies/Shows'
+import { fetchAsyncShows,getAllMovies, getAllShows } from 'redux/show.slice'
 
 const Home = () => {
-  const movies = useSelector(getAllMovies)
-  console.log(movies)
+  const shows = useSelector(getAllShows)
+  console.log(shows)
   const dispatch = useDispatch()
   useEffect(()=>{
   // fetching data
-  dispatch(fetchAsyncMovies())
+  dispatch(fetchAsyncShows())
   //  try {
   //     const fetchData =async ()=>{
   //     const {data} = await axiosTMDB.get("tv/popular")
@@ -28,14 +28,17 @@ const Home = () => {
 
   },[dispatch])
   return (
+  <>
+  <h1>Tv Shows</h1>
   <section className='movies'>
-    {movies.map((movie) => {
-      const {id} = movie
+    {shows.map((show) => {
+      const {id} = show
       return (
-        <Movies movie={movie} key={id} />
+        <Shows show={show} key={id} />
       )
     })}
   </section>
+  </>
   )
 }
 

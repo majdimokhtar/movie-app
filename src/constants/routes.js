@@ -1,2 +1,2 @@
 export const HOME = "/";
-export const SHOW = "show/:id";
+export const SHOW = "shows/:id";

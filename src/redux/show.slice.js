@@ -1,40 +1,43 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {axiosTMDB} from "../utils/axios"
-import { MovieApiKey } from "../utils/MovieApiKey";
+import {axiosTMDB ,API_KEY} from "../utils/axios"
 
-export const fetchAsyncMovies = createAsyncThunk(
-  "movies/fetchAsyncMovies",
+export const fetchAsyncShows = createAsyncThunk(
+  "shows/fetchAsyncShows",
   async () => {
+    const showText = "Harry";
     const {data} = await axiosTMDB.get(
-      "tv/popular"
+      `search/tv?api_key=${API_KEY}&query=${showText}`
     );
     return data.results;
   }
 );
 
-export const fetchAsyncShows = createAsyncThunk(
-  "movies/fetchAsyncShows",
+export const fetchAsyncMovies = createAsyncThunk(
+  "movies/fetchAsyncMovies",
   async () => {
-    const seriesText = "Friends";
-    const response = await axiosTMDB.get(
-      `?apiKey=${MovieApiKey}&s=${seriesText}&type=series`
+    const movieText = "The Shawshank Redemption";
+    const {data} = await axiosTMDB.get(
+      `search/movie?api_key=${API_KEY}&query=${movieText}`
     );
-    return response.data;
+    return data.results;
   }
 );
 
 export const fetchAsyncMovieOrShowDetail = createAsyncThunk(
   "movies/fetchAsyncMovieOrShowDetail",
   async (id) => {
-    const response = await axiosTMDB.get(`?apiKey=${MovieApiKey}&i=${id}&Plot=full`);
+    const response = await axiosTMDB.get(`tv/${id}`);
+    // https://api.themoviedb.org/3/tv/92783?api_key=03b900a103e6ee9dfe7235ac26ad315b
+
+    // await axiosTMDB.get(`?apiKey=${MovieApiKey}&i=${id}&Plot=full`);
     return response.data;
   }
 );
 
 const initialState = {
   movies: [],
-  shows: {},
-  selectMovieOrShow: {},
+  shows: [],
+  selectMovieOrShow: [],
 };
 
 const movieSlice = createSlice({
@@ -42,7 +45,7 @@ const movieSlice = createSlice({
   initialState,
   reducers: {
       removeSelectedMovieOrShow: (state) => {
-      state.selectMovieOrShow = {};
+      state.selectMovieOrShow = [];
     },
   },
   extraReducers: {
