@@ -1,19 +1,38 @@
+// import { createSlice } from "@reduxjs/toolkit";
+
+// const initialState = {
+//   mode: "browser", // browser || light || dark
+// };
+
+// const themeSlice = createSlice({
+//   name: "theme",
+//   initialState,
+//   reducers: {
+//     setThemeMode: (state, action) => {
+//       state.mode = action.payload;
+//     },
+//   },
+// });
+
+// export const { setDarkMode, setThemeMode } = themeSlice.actions;
+
+// export default themeSlice.reducer;
+
+
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  mode: "browser", // browser || light || dark
-};
-
-const themeSlice = createSlice({
+export const themeSlice = createSlice({
   name: "theme",
-  initialState,
+  initialState: {
+    darkTheme: false,
+  },
   reducers: {
-    setThemeMode: (state, action) => {
-      state.mode = action.payload;
+    toggleTheme: (state) => {
+      state.darkTheme = !state.darkTheme;
     },
   },
 });
 
-export const { setDarkMode, setThemeMode } = themeSlice.actions;
+export const { toggleTheme } = themeSlice.actions;
 
 export default themeSlice.reducer;

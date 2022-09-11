@@ -1,6 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {axiosTMDB ,API_KEY} from "../utils/axios"
 
+
+
+
+const initialState = {
+  movies: [],
+  shows: [],
+  selectMovieOrShow: [],
+  favourite: JSON.parse(localStorage.getItem("favouriteMovies")) ?? [],
+};
+
+
 export const fetchAsyncShows = createAsyncThunk(
   "shows/fetchAsyncShows",
   async (search) => {
@@ -34,11 +45,7 @@ export const fetchAsyncMovieOrShowDetail = createAsyncThunk(
   }
 );
 
-const initialState = {
-  movies: [],
-  shows: [],
-  selectMovieOrShow: [],
-};
+
 
 const movieSlice = createSlice({
   name: "movies",
@@ -47,6 +54,22 @@ const movieSlice = createSlice({
       removeSelectedMovieOrShow: (state) => {
       state.selectMovieOrShow = [];
     },
+    // action to add movies to favourite array
+    addToFavourite: (state, { payload }) => {
+      state.favourite.push(payload);
+      localStorage.setItem("favouriteMovies", JSON.stringify(state.favourite));
+    },
+
+    // action to remove movies from favourite array
+    removeFromFavourite: (state, { payload }) => {
+      state.favourite = state.favourite.filter(
+        ({ id }) => id !== payload
+      );
+      localStorage.setItem("favouriteMovies", JSON.stringify(state.favourite));
+    },
+
+
+    
   },
   extraReducers: {
     [fetchAsyncMovies.pending]: () => {
@@ -70,8 +93,9 @@ const movieSlice = createSlice({
   },
 });
 
-export const { removeSelectedMovieOrShow } = movieSlice.actions;
+export const { removeSelectedMovieOrShow,addToFavourite,removeFromFavourite } = movieSlice.actions;
 export const getAllMovies = (state) => state.movies.movies;
 export const getAllShows = (state) => state.movies.shows;
 export const getSelectedMovieOrShow = (state) => state.movies.selectMovieOrShow;
+export const getAllFavourite = (state) => state.movies.favourite;
 export default movieSlice.reducer;

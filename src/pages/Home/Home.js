@@ -1,7 +1,8 @@
 import {useEffect} from 'react'
 import {useDispatch,useSelector } from "react-redux"
+import { v4 as uuidv4 } from 'uuid'
 import Shows from 'components/Movies/Shows'
-import { fetchAsyncShows,getAllMovies, getAllShows } from 'redux/show.slice'
+import { fetchAsyncShows, getAllShows } from 'redux/show.slice'
 
 const Home = () => {
   const shows = useSelector(getAllShows)
@@ -36,7 +37,7 @@ const Home = () => {
     {shows.map((show) => {
       const {id} = show
       return (
-        <Shows show={show} key={id} />
+        <Shows show={show} key={uuidv4()} />
       )
     })}
   </section>
