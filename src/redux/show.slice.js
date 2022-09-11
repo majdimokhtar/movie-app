@@ -3,10 +3,10 @@ import {axiosTMDB ,API_KEY} from "../utils/axios"
 
 export const fetchAsyncShows = createAsyncThunk(
   "shows/fetchAsyncShows",
-  async () => {
-    const showText = "Harry";
+  async (search) => {
+    // const showText = "Harry";
     const {data} = await axiosTMDB.get(
-      `search/tv?api_key=${API_KEY}&query=${showText}`
+      `search/tv?api_key=${API_KEY}&query=${search}`
     );
     return data.results;
   }

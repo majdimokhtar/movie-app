@@ -7,9 +7,11 @@ const Home = () => {
   const shows = useSelector(getAllShows)
   console.log(shows)
   const dispatch = useDispatch()
+
+  const showText = "Breaking"
   useEffect(()=>{
   // fetching data
-  dispatch(fetchAsyncShows())
+  dispatch(fetchAsyncShows(showText))
   //  try {
   //     const fetchData =async ()=>{
   //     const {data} = await axiosTMDB.get("tv/popular")

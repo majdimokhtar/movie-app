@@ -14,7 +14,7 @@ function App() {
   );
 }
 
-const handleTheme = (mode) => {
+export const handleTheme = (mode) => {
   switch (mode) {
     case "light":
       return lightTheme;
