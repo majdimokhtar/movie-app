@@ -20,7 +20,7 @@ export default function WishListCard({fav}) {
             <MovieInfo>
               <Title>{title}</Title>
               <Paragraph>{year}</Paragraph>
-              <Button buttonType={Button_TYPE_CLASS.remove} onClick={favouriteRemoveClickHandler} >remove from wishList</Button>
+              <Button buttonType={Button_TYPE_CLASS.remove} onClick={favouriteRemoveClickHandler} >- remove from wishList</Button>
             </MovieInfo>
     </Movie>
     </>

@@ -20,7 +20,7 @@ const Shows = ({show}) => {
             <MovieInfo>
               <Title className='title'>{title}</Title>
               <Paragraph>{year}</Paragraph>
-              <Button buttonType={Button_TYPE_CLASS.add} onClick={favouriteClickHandler} >add to wishlist</Button>
+              <Button buttonType={Button_TYPE_CLASS.add} onClick={favouriteClickHandler} >+ add to wishlist</Button>
             </MovieInfo>
     </Movie>
     </>

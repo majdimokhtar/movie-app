@@ -4,22 +4,28 @@ import { v4 as uuidv4 } from 'uuid'
 import Shows from 'components/Movies/Shows'
 import {MoviesSection} from "./Home.styles"
 import { fetchAsyncShows, getAllShows } from 'redux/show.slice'
+import { toast } from 'react-toastify';
 
 const Home = () => {
   const shows = useSelector(getAllShows)
-  console.log(shows)
+  // console.log(shows)
   const dispatch = useDispatch()
   const showText = "Breaking"
   useEffect(()=>{
   // fetching data
-  dispatch(fetchAsyncShows(showText))
+  try {
+    dispatch(fetchAsyncShows(showText))
+  } catch (error) {
+    return toast.error("could not fetch shows")
+  }
+
 },[dispatch])
 
   return (
   <>
-  <h1>Tv Shows</h1>
+  <h3 style={{margin:"1rem"}}>Tv Shows</h3>
   <MoviesSection>
-    {shows.map((show) => {
+    {shows && shows.map((show) => {
       return (
       <Shows show={show} key={uuidv4()} />
       )

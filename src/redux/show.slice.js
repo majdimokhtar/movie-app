@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import {axiosTMDB ,API_KEY} from "../utils/axios"
-
-
 
 
 const initialState = {
@@ -12,17 +11,17 @@ const initialState = {
   favourite: JSON.parse(localStorage.getItem("favouriteMovies")) ?? [],
 };
 
-
 export const fetchAsyncShows = createAsyncThunk(
   "shows/fetchAsyncShows",
-  async (search) => {
+  async (search,thunkAPI) => {
     try {
+      console.log("thunk",thunkAPI.getState())
       const {data} = await axiosTMDB.get(
         `search/tv?api_key=${API_KEY}&query=${search}`
       );
       return data.results;
     } catch (error) {
-      alert(error.message)
+      return thunkAPI.rejectWithValue(toast.error("Error fetching shows"));
     }
 
   }
@@ -37,7 +36,7 @@ export const fetchAsyncMovies = createAsyncThunk(
       );
       return data.results;
     } catch (error) {
-      alert(error.message)
+      return toast.error(error)
     }
 
   }
@@ -50,7 +49,7 @@ export const fetchAsyncMovieOrShowDetail = createAsyncThunk(
       const response = await axiosTMDB.get(`tv/${id}`);
       return response.data;
     } catch (error) {
-      alert(error)
+      return toast.error(error)
     }
   }
 );
@@ -91,9 +90,16 @@ const movieSlice = createSlice({
     [fetchAsyncMovies.rejected]: () => {
       console.log("Rejected!");
     },
+    [fetchAsyncShows.pending]: () => {
+      console.log("Pending");
+    },
     [fetchAsyncShows.fulfilled]: (state, { payload }) => {
       console.log("Fetched Successfully!");
       return { ...state, shows: payload };
+    },
+    [fetchAsyncShows.rejected]: (state,action) => {
+      console.log(action)
+      console.log("Rejected!");
     },
     [fetchAsyncMovieOrShowDetail.fulfilled]: (state, { payload }) => {
       console.log("Fetched Successfully!");

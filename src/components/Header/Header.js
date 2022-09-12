@@ -20,7 +20,7 @@ export default function SearchAppBar() {
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
           <Link to="/" >Movie App</Link>    
           </Typography>
-          <Link to="/wishlist" >WishList</Link>
+          <Link to="/wishlist" style={{marginRight:"1rem",color:"#edf6f9",fontWeight:"bold"}}>WishList</Link>
           <SwitchTheme/>
         <SearchBar/>
         </Toolbar>

@@ -3,7 +3,7 @@ import styled from "styled-components"
 export const BaseButton = styled.button`
     text-transform: capitalize;
     padding: 0.25rem 0.5rem;
-    background: var(--clr-primary-5);
+    background: var(--clr-primary);
     color: var(--clr-white);
     border-radius: var(--radius);
     display: inline-block;

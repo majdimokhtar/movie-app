@@ -6,6 +6,9 @@ export const SingleMovie = styled.section`
     margin: 4rem auto;
     display: grid;
     gap: 2rem;
+    h4{
+        margin-top: 1.5rem;
+    }
     @media screen and (min-width: 992px) {
     grid-template-columns: 1fr 2fr;
 }
@@ -15,11 +18,12 @@ export const SingleMovieImg = styled.img`
     display: block;
 `
 
-export const SingleMovieParagraph = styled.p`
-max-width: 35em;
-    font-size: 1.2rem;
+export const SingleMovieParagraph = styled.h6`
+    max-width: 35em;
+    font-size: 1.1rem;
     margin-top: 1.5rem;
     line-height: 1.8;
+    font-weight: lighter;
 `
 
 
