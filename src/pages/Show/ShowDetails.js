@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useDispatch,useSelector } from 'react-redux'
+import {url,getPosterURL} from "../../components/shared/Poster/poster"
 import { getSelectedMovieOrShow,fetchAsyncMovieOrShowDetail, removeSelectedMovieOrShow } from 'redux/show.slice'
-
-
-const url = 'https://lascrucesfilmfest.com/wp-content/uploads/2018/01/no-poster-available-737x1024.jpg'
-
-const getPosterURL =(posterPath)=>{
-  return `https://www.themoviedb.org/t/p/w220_and_h330_face${posterPath}`
-}
+import Button, { Button_TYPE_CLASS } from 'components/shared/Button/Button'
+import {SingleMovie,SingleMovieImg,SingleMovieParagraph} from "./ShowDetails.styles"
 
 const ShowDetails = () => {
   const { id } = useParams()
@@ -17,40 +13,26 @@ const ShowDetails = () => {
   const dispatch = useDispatch()
   useEffect(()=>{
   dispatch(fetchAsyncMovieOrShowDetail(id))
-
   return ()=>{
     dispatch(removeSelectedMovieOrShow())
   }
   },[dispatch,id])
-  // const { isLoading, error, data: movie } = useFetch(`&i=${id}`)
-
-  // if (isLoading) {
-  //   return <div className='loading'></div>
-  // }
-  // if (error.show) {
-  //   return (
-  //     <div className='page-error'>
-  //       <h1>{error.msg}</h1>
-  //       <Link to='/' className='btn'>
-  //         back to movies
-  //       </Link>
-  //     </div>
-  //   )
-  // }
+  
   const { poster_path: poster, name: title, first_air_date: year, overview } = data
   return ( 
-    <section className='single-movie'>
-      <img src={poster === null ? url : getPosterURL(poster)} alt={data.name} />
+    <SingleMovie>
+      <SingleMovieImg src={poster === null ? url : getPosterURL(poster)} alt={data.name} />
       <div className='single-movie-info'>
         <h2>{title}</h2>
-        <p>{overview}</p>
+        <SingleMovieParagraph>{overview}</SingleMovieParagraph>
         <h4>{year}</h4>
-        <Link to='/' className='btn'>
+        <Button buttonType={Button_TYPE_CLASS.base}>
+        <Link to='/'>
           back to Home
         </Link>
+        </Button>
       </div>
-    </section>
+    </SingleMovie>
   )
 }
-
 export default ShowDetails

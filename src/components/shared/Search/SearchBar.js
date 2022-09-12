@@ -10,7 +10,6 @@ export default function SearchBar() {
   const dispatch = useDispatch()
   const submitHandler =(e)=>{
     e.preventDefault()
-    if(search.length === 0   ){alert("please enter a valid search")}
     dispatch(fetchAsyncShows(search))
     setSearch("")
     console.log(search);
@@ -26,9 +25,7 @@ export default function SearchBar() {
     <StyledInputBase
       onChange={(e) => setSearch(e.target.value)}
       placeholder="Search…"
-      value={search}
-      // inputProps={{ 'aria-label': 'search' }}
-    />
+      value={search}/>
   </Search>
   </form>
   )

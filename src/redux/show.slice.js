@@ -8,6 +8,7 @@ const initialState = {
   movies: [],
   shows: [],
   selectMovieOrShow: [],
+  isLoading: true,
   favourite: JSON.parse(localStorage.getItem("favouriteMovies")) ?? [],
 };
 
@@ -15,37 +16,44 @@ const initialState = {
 export const fetchAsyncShows = createAsyncThunk(
   "shows/fetchAsyncShows",
   async (search) => {
-    // const showText = "Harry";
-    const {data} = await axiosTMDB.get(
-      `search/tv?api_key=${API_KEY}&query=${search}`
-    );
-    return data.results;
+    try {
+      const {data} = await axiosTMDB.get(
+        `search/tv?api_key=${API_KEY}&query=${search}`
+      );
+      return data.results;
+    } catch (error) {
+      alert(error.message)
+    }
+
   }
 );
 
 export const fetchAsyncMovies = createAsyncThunk(
   "movies/fetchAsyncMovies",
-  async () => {
-    const movieText = "The Shawshank Redemption";
-    const {data} = await axiosTMDB.get(
-      `search/movie?api_key=${API_KEY}&query=${movieText}`
-    );
-    return data.results;
+  async (search) => {
+    try {
+      const {data} = await axiosTMDB.get(
+        `search/movie?api_key=${API_KEY}&query=${search}`
+      );
+      return data.results;
+    } catch (error) {
+      alert(error.message)
+    }
+
   }
 );
 
 export const fetchAsyncMovieOrShowDetail = createAsyncThunk(
   "movies/fetchAsyncMovieOrShowDetail",
   async (id) => {
-    const response = await axiosTMDB.get(`tv/${id}`);
-    // https://api.themoviedb.org/3/tv/92783?api_key=03b900a103e6ee9dfe7235ac26ad315b
-
-    // await axiosTMDB.get(`?apiKey=${MovieApiKey}&i=${id}&Plot=full`);
-    return response.data;
+    try {
+      const response = await axiosTMDB.get(`tv/${id}`);
+      return response.data;
+    } catch (error) {
+      alert(error)
+    }
   }
 );
-
-
 
 const movieSlice = createSlice({
   name: "movies",
@@ -56,10 +64,13 @@ const movieSlice = createSlice({
     },
     // action to add movies to favourite array
     addToFavourite: (state, { payload }) => {
-      state.favourite.push(payload);
-      localStorage.setItem("favouriteMovies", JSON.stringify(state.favourite));
+      const { id } = payload
+      if (!state[id]) {
+        state[id] = []
+        state.favourite.push(payload);
+        localStorage.setItem("favouriteMovies", JSON.stringify(state.favourite));
+      }
     },
-
     // action to remove movies from favourite array
     removeFromFavourite: (state, { payload }) => {
       state.favourite = state.favourite.filter(
@@ -67,10 +78,8 @@ const movieSlice = createSlice({
       );
       localStorage.setItem("favouriteMovies", JSON.stringify(state.favourite));
     },
+},
 
-
-    
-  },
   extraReducers: {
     [fetchAsyncMovies.pending]: () => {
       console.log("Pending");

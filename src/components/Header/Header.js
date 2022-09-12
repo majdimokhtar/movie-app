@@ -17,10 +17,8 @@ export default function SearchAppBar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          >
-          <Link to="/" >Movie App</Link>
-              
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
+          <Link to="/" >Movie App</Link>    
           </Typography>
           <Link to="/wishlist" >WishList</Link>
           <SwitchTheme/>
